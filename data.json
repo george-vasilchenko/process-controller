@@ -1,0 +1,23 @@
+{
+	"timeStamp": "2020-05-16T22:20:11.5588424+02:00",
+	"elements": [
+		{
+			"Id": {
+				"Value": "943c9f73-4b85-4974-90b1-b727c5e0f8bf"
+			},
+			"Name": "Auth Api",
+			"Path": "D:\\Development\\WoltersKluwer\\AzureDevOps\\auth\\Avanzer.Auth.Api\\",
+			"Command": "dotnet.exe",
+			"Arguments": "run --project Avanzer.Auth.Api.csproj"
+		},
+		{
+			"Id": {
+				"Value": "3a14780a-b0d7-4c49-a9a7-42869e7bf79f"
+			},
+			"Name": "CRM Api",
+			"Path": "D:\\Development\\WoltersKluwer\\AzureDevOps\\crm\\Avanzer.CRM.Api\\",
+			"Command": "dotnet.exe",
+			"Arguments": "run --project Avanzer.CRM.Api.csproj"
+		}
+	]
+}
