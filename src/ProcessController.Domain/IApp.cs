@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ProcessController.Domain
 {
@@ -18,9 +19,13 @@ namespace ProcessController.Domain
 
         string Arguments { get; }
 
+        Dictionary<string, string> Variables { get; }
+
         string StandardOutput { get; }
 
         bool IsRunning { get; }
+
+        bool IsDebug { get; set; }
 
         void ResetStandardOutput();
 

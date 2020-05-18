@@ -25,23 +25,7 @@ namespace ProcessController.Service
             var app = this.repository.GetById(appId);
             app.ResetStandardOutput();
 
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    WorkingDirectory = app.Path,
-                    FileName = app.Command,
-                    Arguments = app.Arguments,
-                    UseShellExecute = false,
-                    ErrorDialog = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                },
-                EnableRaisingEvents = true
-            };
-            process.OutputDataReceived += (s, e) => app.ReceiveStandardOutput(e.Data);
-            process.ErrorDataReceived += (s, e) => app.ReceiveStandardOutput(e.Data);
-            process.Exited += this.TryCleanupAppProcess;
+            var process = ConfigureProcess(app);
 
             this.appWorkingSets.Add(new AppWorkingSet
             {
@@ -85,6 +69,36 @@ namespace ProcessController.Service
             var apps = this.repository.GetAll();
 
             return apps.ToList();
+        }
+
+        private Process ConfigureProcess(IApp app)
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    WorkingDirectory = app.Path,
+                    FileName = app.Command,
+                    Arguments = app.Arguments,
+                    UseShellExecute = false,
+                    ErrorDialog = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                },
+                EnableRaisingEvents = true
+            };
+
+            foreach (var variable in app.Variables)
+            {
+                process.StartInfo.EnvironmentVariables.Add(variable.Key, variable.Value);
+            }
+
+            process.OutputDataReceived += (s, e) => app.ReceiveStandardOutput(e.Data);
+            process.ErrorDataReceived += (s, e) => app.ReceiveStandardOutput(e.Data);
+            process.Exited += this.TryCleanupAppProcess;
+
+            return process;
         }
 
         private void TryCleanupAppProcess(object sender, EventArgs e)

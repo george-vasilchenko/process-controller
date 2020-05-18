@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace ProcessController.Domain
 {
     public class App : IApp
     {
-        private App(string name, string path, string command = "", string arguments = "")
+        private App(
+            string name,
+            string path,
+            string command = "",
+            string arguments = "",
+            Dictionary<string, string> variables = default)
         {
             this.Id = new AppId(Guid.NewGuid());
 
@@ -33,16 +39,24 @@ namespace ProcessController.Domain
             this.Path = path;
             this.Command = command;
             this.Arguments = arguments;
+            this.Variables = variables ?? new Dictionary<string, string>();
         }
 
         [JsonConstructor]
-        private App(AppId id, string name, string path, string command, string arguments)
+        private App(
+            AppId id,
+            string name,
+            string path,
+            string command,
+            string arguments,
+            Dictionary<string, string> variables)
         {
             this.Id = id;
             this.Name = name;
             this.Path = path;
             this.Command = command;
             this.Arguments = arguments;
+            this.Variables = variables;
         }
 
         public event Action<string> OnStandardOutputUpdated;
@@ -59,11 +73,16 @@ namespace ProcessController.Domain
 
         public string Arguments { get; }
 
+        public Dictionary<string, string> Variables { get; }
+
         [JsonIgnore]
         public string StandardOutput { get; private set; }
 
         [JsonIgnore]
         public bool IsRunning { get; private set; }
+
+        [JsonIgnore]
+        public bool IsDebug { get; set; }
 
         public static IApp CreateNew()
         {

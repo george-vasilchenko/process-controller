@@ -6,18 +6,18 @@ namespace ProcessController.WinForms.Configurations
 {
     public class JsonContextConfiguration : IJsonContextConfiguration
     {
-        private const string StoreFilePathElementName = "StoreFilePath";
+        private const string JsonDataFilePathVariableName = "JsonDataFilePath";
 
         public JsonContextConfiguration()
         {
-            var filePathValue = ConfigurationManager.AppSettings.Get(StoreFilePathElementName);
+            var pathValue = ConfigurationManager.AppSettings.Get(JsonDataFilePathVariableName);
 
-            if (string.IsNullOrWhiteSpace(filePathValue))
+            if (string.IsNullOrWhiteSpace(pathValue))
             {
-                throw new MissingFieldException($"App setting key {StoreFilePathElementName} is not defined.");
+                throw new MissingFieldException($"App setting key {JsonDataFilePathVariableName} is not defined.");
             }
 
-            this.FilePath = filePathValue;
+            this.FilePath = pathValue;
         }
 
         public string FilePath { get; }
