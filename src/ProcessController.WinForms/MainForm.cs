@@ -5,6 +5,11 @@ using ProcessController.Domain;
 using ProcessController.Service;
 using ProcessController.WinForms.Components;
 
+/* todo:
+ * 1. Show status (is running) in the list of apps
+ * 2. Edit details and save
+ */
+
 namespace ProcessController.WinForms
 {
     public partial class MainForm : Form
@@ -35,6 +40,7 @@ namespace ProcessController.WinForms
                 this.AppPathText,
                 this.AppCommandText,
                 this.AppArgumentsText,
+                this.AppVariablesText,
                 this.AppOutputText,
                 this.AppRunButton,
                 this.AppStopButton,
@@ -62,7 +68,7 @@ namespace ProcessController.WinForms
 
         private void InitializeAppListComponent(ListBox appList)
         {
-            this.appListComponent = new AppListComponent(appList, this.appBindingSource);
+            this.appListComponent = new AppListComponent(appList, this.appBindingSource, this.CreateGraphics());
             this.appListComponent.OnSelectionChanged += this.appDetailsComponent.Update;
         }
 
@@ -72,6 +78,7 @@ namespace ProcessController.WinForms
             TextBox appPathTextBox,
             TextBox appCommandTextBox,
             TextBox appArgumentsTextBox,
+            TextBox appVariablesTextBox,
             RichTextBox appOutputText,
             Button appRunButton,
             Button appStopButton,
@@ -83,6 +90,7 @@ namespace ProcessController.WinForms
                 appPathTextBox,
                 appCommandTextBox,
                 appArgumentsTextBox,
+                appVariablesTextBox,
                 appOutputText,
                 appRunButton,
                 appStopButton,

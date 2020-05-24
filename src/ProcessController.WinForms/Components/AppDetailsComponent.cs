@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using ProcessController.Domain;
 using ProcessController.Service;
@@ -18,6 +20,8 @@ namespace ProcessController.WinForms.Components
 
         private readonly TextBox argumentsText;
 
+        private readonly TextBox variablesText;
+
         private readonly RichTextBox outputText;
 
         private readonly Button runButton;
@@ -34,6 +38,7 @@ namespace ProcessController.WinForms.Components
             TextBox pathText,
             TextBox commandText,
             TextBox argumentsText,
+            TextBox variablesText,
             RichTextBox outputText,
             Button runButton,
             Button stopButton,
@@ -44,6 +49,7 @@ namespace ProcessController.WinForms.Components
             this.pathText = pathText;
             this.commandText = commandText;
             this.argumentsText = argumentsText;
+            this.variablesText = variablesText;
             this.outputText = outputText;
             this.runButton = runButton;
             this.stopButton = stopButton;
@@ -74,14 +80,6 @@ namespace ProcessController.WinForms.Components
             this.Redraw();
         }
 
-        private void UpdateRunningCheckbox(bool isRunning)
-        {
-            this.runningCheckbox.Invoke(() =>
-            {
-                this.runningCheckbox.Checked = isRunning;
-            });
-        }
-
         private void OnRunAppClickHandler()
         {
             if (this.currentApp.IsRunning)
@@ -102,12 +100,14 @@ namespace ProcessController.WinForms.Components
             this.appService.TerminateAppProcess(this.currentApp.Id);
         }
 
+        private void UpdateRunningCheckbox(bool isRunning)
+        {
+            this.runningCheckbox.Invoke(() => this.runningCheckbox.Checked = isRunning);
+        }
+
         private void UpdateOutputText(string text)
         {
-            this.outputText.Invoke(() =>
-            {
-                this.outputText.Text = text;
-            });
+            this.outputText.Invoke(() => this.outputText.Text = text);
         }
 
         private void Redraw()
@@ -116,8 +116,16 @@ namespace ProcessController.WinForms.Components
             this.pathText.Text = this.currentApp.Path;
             this.commandText.Text = this.currentApp.Command;
             this.argumentsText.Text = this.currentApp.Arguments;
+            this.RedrawVariablesText(this.currentApp.Variables);
             this.outputText.Text = this.currentApp.StandardOutput;
             this.runningCheckbox.Checked = this.currentApp.IsRunning;
+        }
+
+        private void RedrawVariablesText(Dictionary<string, string> variables)
+        {
+            this.variablesText.Text = variables.Count > 0
+                ? variables.Select(kvp => $"{kvp.Key}::{kvp.Value}").Aggregate((a, b) => $"{a}{Environment.NewLine}{b}")
+                : string.Empty;
         }
     }
 }
