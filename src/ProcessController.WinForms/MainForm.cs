@@ -124,6 +124,11 @@ namespace ProcessController.WinForms
             this.environmentService.Close();
         }
 
+        private void stopAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.appService.StopAllProcesses();
+        }
+
         #endregion Event Handlers
     }
 }

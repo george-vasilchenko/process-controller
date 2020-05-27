@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using ProcessController.Data.Repositories;
 using ProcessController.Domain;
 
@@ -46,7 +47,7 @@ namespace ProcessController.Service
             if (!workingSet.SystemProcess.HasExited)
             {
                 workingSet.SystemProcess.CancelOutputRead();
-                workingSet.SystemProcess.Kill();
+                KillProcessAndChildren(workingSet.SystemProcess.Id);
             }
 
             workingSet.App.SetRunning(false);
@@ -109,6 +110,43 @@ namespace ProcessController.Service
             if (workingSet != null)
             {
                 this.TerminateAppProcess(workingSet.App.Id);
+            }
+        }
+
+        public void StopAllProcesses()
+        {
+            var setsWithRunningProcess = this.appWorkingSets.Where(o => o.App.IsRunning).ToArray();
+
+            for (int i = setsWithRunningProcess.Length - 1; i >= 0; i--)
+            {
+                var set = setsWithRunningProcess[i];
+                this.TerminateAppProcess(set.App.Id);
+            }
+        }
+
+        private static void KillProcessAndChildren(int pid)
+        {
+            if (pid == 0)
+            {
+                return;
+            }
+
+            using var objectSearcher = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + pid);
+            using var objectCollection = objectSearcher.Get();
+
+            foreach (var obj in objectCollection)
+            {
+                KillProcessAndChildren(Convert.ToInt32(obj["ProcessID"]));
+            }
+
+            try
+            {
+                var proc = Process.GetProcessById(pid);
+                proc.Kill();
+            }
+            catch (ArgumentException)
+            {
+                Debug.WriteLine($"Process {pid} has already exited.");
             }
         }
     }

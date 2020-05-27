@@ -107,7 +107,7 @@ namespace ProcessController.WinForms.Components
 
         private void UpdateOutputText(string text)
         {
-            this.outputText.Invoke(() => this.outputText.Text = text);
+            this.outputText.Invoke(() => this.RedrawOutputText(text));
         }
 
         private void Redraw()
@@ -117,8 +117,15 @@ namespace ProcessController.WinForms.Components
             this.commandText.Text = this.currentApp.Command;
             this.argumentsText.Text = this.currentApp.Arguments;
             this.RedrawVariablesText(this.currentApp.Variables);
-            this.outputText.Text = this.currentApp.StandardOutput;
+            this.RedrawOutputText(this.currentApp.StandardOutput);
             this.runningCheckbox.Checked = this.currentApp.IsRunning;
+        }
+
+        private void RedrawOutputText(string standardOutput)
+        {
+            this.outputText.Text = standardOutput;
+            this.outputText.SelectionStart = standardOutput != null ? standardOutput.Length : 0;
+            this.outputText.ScrollToCaret();
         }
 
         private void RedrawVariablesText(Dictionary<string, string> variables)

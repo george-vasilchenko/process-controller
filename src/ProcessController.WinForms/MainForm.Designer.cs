@@ -36,11 +36,12 @@
             this.AppToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewAppToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AppDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.AppOutputGroupbox = new System.Windows.Forms.GroupBox();
+            this.AppOutputText = new System.Windows.Forms.RichTextBox();
             this.AppVariablesText = new System.Windows.Forms.TextBox();
             this.AppVariablesLabel = new System.Windows.Forms.Label();
             this.AppRunningCheckbox = new System.Windows.Forms.CheckBox();
             this.AppStopButton = new System.Windows.Forms.Button();
-            this.AppOutputText = new System.Windows.Forms.RichTextBox();
             this.AppArgumentsText = new System.Windows.Forms.TextBox();
             this.AppArgumentsLabel = new System.Windows.Forms.Label();
             this.AppCommandText = new System.Windows.Forms.TextBox();
@@ -51,11 +52,11 @@
             this.AppNameText = new System.Windows.Forms.TextBox();
             this.AppNameLabel = new System.Windows.Forms.Label();
             this.AppListGroupBox = new System.Windows.Forms.GroupBox();
-            this.AppOutputGroupbox = new System.Windows.Forms.GroupBox();
+            this.stopAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AppMenuStrip.SuspendLayout();
             this.AppDetailsGroupBox.SuspendLayout();
-            this.AppListGroupBox.SuspendLayout();
             this.AppOutputGroupbox.SuspendLayout();
+            this.AppListGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // AppList
@@ -91,13 +92,14 @@
             // QuitToolStripMenuItem
             // 
             this.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
-            this.QuitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.QuitToolStripMenuItem.Size = new System.Drawing.Size(120, 26);
             this.QuitToolStripMenuItem.Text = "Quit";
             // 
             // AppToolStripMenuItem
             // 
             this.AppToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewAppToolStripMenuItem});
+            this.NewAppToolStripMenuItem,
+            this.stopAllToolStripMenuItem});
             this.AppToolStripMenuItem.Name = "AppToolStripMenuItem";
             this.AppToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.AppToolStripMenuItem.Text = "App";
@@ -105,7 +107,7 @@
             // NewAppToolStripMenuItem
             // 
             this.NewAppToolStripMenuItem.Name = "NewAppToolStripMenuItem";
-            this.NewAppToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
+            this.NewAppToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.NewAppToolStripMenuItem.Text = "New";
             // 
             // AppDetailsGroupBox
@@ -131,6 +133,28 @@
             this.AppDetailsGroupBox.TabStop = false;
             this.AppDetailsGroupBox.Text = "Details";
             // 
+            // AppOutputGroupbox
+            // 
+            this.AppOutputGroupbox.Controls.Add(this.AppOutputText);
+            this.AppOutputGroupbox.Location = new System.Drawing.Point(9, 205);
+            this.AppOutputGroupbox.Name = "AppOutputGroupbox";
+            this.AppOutputGroupbox.Size = new System.Drawing.Size(878, 460);
+            this.AppOutputGroupbox.TabIndex = 15;
+            this.AppOutputGroupbox.TabStop = false;
+            this.AppOutputGroupbox.Text = "Output";
+            // 
+            // AppOutputText
+            // 
+            this.AppOutputText.BackColor = System.Drawing.Color.White;
+            this.AppOutputText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.AppOutputText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.AppOutputText.Location = new System.Drawing.Point(6, 21);
+            this.AppOutputText.Name = "AppOutputText";
+            this.AppOutputText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.AppOutputText.Size = new System.Drawing.Size(866, 433);
+            this.AppOutputText.TabIndex = 9;
+            this.AppOutputText.Text = "";
+            // 
             // AppVariablesText
             // 
             this.AppVariablesText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -152,6 +176,7 @@
             // AppRunningCheckbox
             // 
             this.AppRunningCheckbox.AutoSize = true;
+            this.AppRunningCheckbox.Enabled = false;
             this.AppRunningCheckbox.Location = new System.Drawing.Point(805, 61);
             this.AppRunningCheckbox.Name = "AppRunningCheckbox";
             this.AppRunningCheckbox.Size = new System.Drawing.Size(83, 21);
@@ -167,18 +192,6 @@
             this.AppStopButton.TabIndex = 10;
             this.AppStopButton.Text = "Stop";
             this.AppStopButton.UseVisualStyleBackColor = true;
-            // 
-            // AppOutputText
-            // 
-            this.AppOutputText.BackColor = System.Drawing.Color.White;
-            this.AppOutputText.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.AppOutputText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.AppOutputText.Location = new System.Drawing.Point(6, 21);
-            this.AppOutputText.Name = "AppOutputText";
-            this.AppOutputText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.AppOutputText.Size = new System.Drawing.Size(866, 433);
-            this.AppOutputText.TabIndex = 9;
-            this.AppOutputText.Text = "";
             // 
             // AppArgumentsText
             // 
@@ -267,15 +280,12 @@
             this.AppListGroupBox.TabStop = false;
             this.AppListGroupBox.Text = "Apps";
             // 
-            // AppOutputGroupbox
+            // stopAllToolStripMenuItem
             // 
-            this.AppOutputGroupbox.Controls.Add(this.AppOutputText);
-            this.AppOutputGroupbox.Location = new System.Drawing.Point(9, 205);
-            this.AppOutputGroupbox.Name = "AppOutputGroupbox";
-            this.AppOutputGroupbox.Size = new System.Drawing.Size(878, 460);
-            this.AppOutputGroupbox.TabIndex = 15;
-            this.AppOutputGroupbox.TabStop = false;
-            this.AppOutputGroupbox.Text = "Output";
+            this.stopAllToolStripMenuItem.Name = "stopAllToolStripMenuItem";
+            this.stopAllToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.stopAllToolStripMenuItem.Text = "Stop All";
+            this.stopAllToolStripMenuItem.Click += new System.EventHandler(this.stopAllToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -297,8 +307,8 @@
             this.AppMenuStrip.PerformLayout();
             this.AppDetailsGroupBox.ResumeLayout(false);
             this.AppDetailsGroupBox.PerformLayout();
-            this.AppListGroupBox.ResumeLayout(false);
             this.AppOutputGroupbox.ResumeLayout(false);
+            this.AppListGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,6 +339,7 @@
         private System.Windows.Forms.Label AppVariablesLabel;
         private System.Windows.Forms.TextBox AppVariablesText;
         private System.Windows.Forms.GroupBox AppOutputGroupbox;
+        private System.Windows.Forms.ToolStripMenuItem stopAllToolStripMenuItem;
     }
 }
 

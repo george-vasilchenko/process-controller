@@ -12,5 +12,6 @@ namespace ProcessController.Service
         void CreateAndRunAppProcess(AppId appId);
 
         void TerminateAppProcess(AppId appId);
+        void StopAllProcesses();
     }
 }
